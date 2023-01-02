@@ -7,13 +7,9 @@ def count(file):
 
     data=dict(res)
 
-    myKeys = list(data.keys())
-    myKeys.sort()
-    sorted_dict = {i: data[i] for i in myKeys}
+    sorted_dict={k: v for k, v in sorted(data.items(), key=lambda item: item[1])}
 
-    print(sorted_dict)
-
-    f2 = open("count_"+file+".csv", "w",encoding="utf-8")
+    f2 = open("exact_count_"+file+".csv", "w",encoding="utf-8")
 
     f2.write("char,count\n")
 
