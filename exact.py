@@ -3,7 +3,7 @@ import collections
 def count(file):
     f = open("books/"+file+".txt", "r")
 
-    res = collections.Counter(f.read())
+    res = collections.Counter(f.read().upper())
 
     data=dict(res)
 
@@ -14,7 +14,7 @@ def count(file):
     f2.write("char,count\n")
 
     for key in sorted_dict:
-        if key == '\n':
+        if key == '\n' or key == ' ':
             continue
         f2.write(str(key) + "," + str(sorted_dict[key])+"\n")
 

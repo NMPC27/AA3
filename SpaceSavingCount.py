@@ -14,7 +14,7 @@ class SpaceSavingCount:
     def count(self, data):
 
         while(data != ''):
-            if data[0] == '\n':
+            if data[0] == '\n' or data[0] == ' ':
                 data = data[1:]
                 continue
 
@@ -42,7 +42,7 @@ files=["en","fr","gr"]
 
 for file in files:
     f = open("books/"+file+".txt", "r")
-    data = f.read()
+    data = f.read().upper()
 
     counter = SpaceSavingCount(k)
     counter.count(data)
