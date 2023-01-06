@@ -1,6 +1,11 @@
 from math import floor
 from random import randint
 
+chars = ["\n"," ",",",".","!","?",";",":","'","\"","(",")","[","]","{","}","<",">","/","\\",
+        "|","@","#","$","%","^","&","*","-","+","=","_","~","`"
+        "©"," ","‰","¨","´","¹","»","®","¢","ª","ˆ","¯","«","¼","©","¤"]
+
+
 class CsurosCounter():
     def __init__(self, d): # d >=1
         self.m = 2**d
@@ -21,7 +26,7 @@ class CsurosCounter():
     def count(self, data):
 
         while(data != ''):
-            if data[0] == '\n' or data[0] == ' ':
+            if data[0] in chars:
                 data = data[1:]
                 continue
 
@@ -36,24 +41,35 @@ class CsurosCounter():
 
 files=["en","fr","gr"]
 
+avg_dict=dict()
+
 for d in range(1,15): # d >=1 , quanto maior o d mais exato é o resultado
-
+    print(d)
     for file in files:
-        f = open("books/"+file+".txt", "r")
-        data = f.read().upper()
+        avg_dict=dict()
+        for i in range(10):
 
-        counter = CsurosCounter(d)
-        counter.count(data)
+            f = open("books/"+file+".txt", "r")
+            data = f.read().upper()
 
-        sorted_dict={k: v for k, v in sorted(counter.dict.items(), key=lambda item: item[1])}
-        print(sorted_dict)
-        f.close()
+            counter = CsurosCounter(d)
+            counter.count(data)
 
-        f = open("results/CsurosCounter_"+file+"_"+str(d)+".txt", "w")
-        f.write("char,count")
+            f.close()
 
-        for key in sorted_dict:
-            f.write("\n"+key+","+str(sorted_dict[key]))
+            avg_dict={k: avg_dict.get(k, 0) + counter.dict.get(k, 0) for k in set(avg_dict) | set(counter.dict)}
+
+
+
+
+        avg_dict={k: v for k, v in sorted(avg_dict.items(), key=lambda item: item[1],reverse=True)}
+        soma=sum(avg_dict.values())
+
+        f = open("results/CsurosCounter_"+file+"_"+str(d)+".csv", "w",encoding="utf-8")
+        f.write("char,count,percentage")
+
+        for key in avg_dict:
+            f.write("\n"+key+","+str(avg_dict[key]/10)+","+str(avg_dict[key]/soma*100))
         f.close()
 
 
