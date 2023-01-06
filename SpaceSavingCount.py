@@ -37,7 +37,7 @@ class SpaceSavingCount:
 
 
 
-k=10
+k=3
 files=["en","fr","gr"]
 
 for file in files:
@@ -47,4 +47,11 @@ for file in files:
     counter = SpaceSavingCount(k)
     counter.count(data)
     print(counter.t)
+    f.close()
+
+    f = open("results/SpaceSavingCount_"+file+"_"+str(k)+".txt", "w")
+    f.write("char,count")
+
+    for key in counter.t:
+        f.write("\n"+key+","+str(counter.t[key]))
     f.close()

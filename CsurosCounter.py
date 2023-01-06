@@ -34,17 +34,26 @@ class CsurosCounter():
             data = data[1:]
 
 
-d=14 # d >=1 , quanto maior o d mais exato é o resultado
 files=["en","fr","gr"]
 
-for file in files:
-    f = open("books/"+file+".txt", "r")
-    data = f.read().upper()
+for d in range(1,15): # d >=1 , quanto maior o d mais exato é o resultado
 
-    counter = CsurosCounter(d)
-    counter.count(data)
+    for file in files:
+        f = open("books/"+file+".txt", "r")
+        data = f.read().upper()
 
-    sorted_dict={k: v for k, v in sorted(counter.dict.items(), key=lambda item: item[1])}
-    print(sorted_dict)
-    f.close()
+        counter = CsurosCounter(d)
+        counter.count(data)
+
+        sorted_dict={k: v for k, v in sorted(counter.dict.items(), key=lambda item: item[1])}
+        print(sorted_dict)
+        f.close()
+
+        f = open("results/CsurosCounter_"+file+"_"+str(d)+".txt", "w")
+        f.write("char,count")
+
+        for key in sorted_dict:
+            f.write("\n"+key+","+str(sorted_dict[key]))
+        f.close()
+
 
